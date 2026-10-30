@@ -1,0 +1,72 @@
+Time: O(m × n) 
+Auxiliary space: O(m × n)
+
+///we are using multi source BFS
+
+class Solution {
+    public int orangesRotting(int[][] grid) {
+
+        int m=grid.length;
+        int n=grid[0].length;
+
+        Queue<int[]> queue=new LinkedList<>();
+
+        int fresh=0;
+        int minutes=0;
+
+//count fresh oranges and rotten oranges and add in queue
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+
+                if(grid[i][j]==2){
+                    queue.offer(new int[]{i,j});
+                }else if(grid[i][j]==1){
+                    fresh++;
+                }
+            }
+        }
+
+
+        int[] dr={-1,1,0,0};
+        int[] dc={0,0,-1,1};
+
+        while(!queue.isEmpty() && fresh>0){
+            
+            int size=queue.size();
+
+            for(int i=0;i<size;i++){
+
+                int[] current=queue.poll();
+
+                for(int d=0;d<4;d++){
+
+                    int nr=current[0]+dr[d];
+                    int nc=current[1]+dc[d];
+
+                    if(nr>=0 && nc>=0 && nr<m && nc<n && grid[nr][nc]==1 ){
+                        grid[nr][nc]=2;
+                        fresh--;
+                        queue.offer(new int[]{nr,nc});
+                    }
+                }
+            }
+            minutes++;
+        }
+        
+        return fresh==0?minutes:-1;
+
+
+    }
+}
+
+
+1. Initialize a queue, fresh = 0, and minutes = 0.
+2. Traverse the grid, enqueue all rotten oranges, and count fresh oranges.
+3. Define the four directions: up, down, left, and right.
+4. While the queue is not empty and fresh oranges remain:- Store the current queue size.
+  - Process all oranges at that BFS level.
+  - For each orange, check its four neighbors.
+  - If a neighbor is fresh, mark it rotten, decrement fresh, and enqueue it.
+  - Increment minutes after processing the entire level.
+
+5. Return minutes if fresh == 0; otherwise, return -1.
