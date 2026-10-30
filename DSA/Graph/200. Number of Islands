@@ -38,3 +38,20 @@ class Solution {
         return count;
     }
 }
+
+
+
+### Number of Islands — DFS Algorithm
+
+1. Initialize `count = 0` to track the number of islands.
+2. Traverse every cell in the grid using nested loops.
+3. If `grid[i][j] == '1'`, a new island is found; increment `count`.
+4. Call DFS from that cell to explore all connected land cells.
+5. In DFS, check boundaries and return if the cell is out of bounds or contains water (`'0'`).
+6. Mark the current land cell as visited by changing `'1'` to `'0'`.
+7. Recursively explore all four directions: **up, down, left, right**.
+8. Continue scanning the grid; skip water and already visited cells.
+9. Return `count` after traversing the entire grid.
+
+**Time Complexity:** `O(m × n)`  
+**Space Complexity:** `O(m × n)` worst case due to the DFS recursion stack.
