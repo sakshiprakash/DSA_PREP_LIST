@@ -1,0 +1,77 @@
+/// Solution in Adj List  time Comp = O(V²)  Space comp = O(V + E)
+class Solution {
+
+    private void dfs(int node,ArrayList<ArrayList<Integer>> adj,boolean[] vis){
+        vis[node]=true;
+
+        for(int i:adj.get(node)){
+            if(!vis[i]){
+                dfs(i,adj,vis);
+            }
+        }
+    }
+    public int findCircleNum(int[][] isConnected) {
+
+        int n=isConnected.length;
+
+//create adj list
+        ArrayList<ArrayList<Integer>> adj=new ArrayList<>();
+//create adj list of list
+        for(int i=0;i<n;i++){
+            adj.add(new ArrayList<>());
+        }
+//Put the values in adj list
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                if(isConnected[i][j]==1 && i!=j){
+                    adj.get(i).add(j);
+                }
+            }
+        }
+
+        int count=0;
+        boolean[] vis=new boolean[n];
+
+        for(int i=0;i<n;i++){
+            if(!vis[i]){
+                dfs(i,adj,vis);
+                count++;
+            }
+        }
+
+        return count;
+        
+    }
+}
+
+
+
+////Matrix Solution  time Comp = O(V²) Space Comp = O(V)
+
+class Solution {
+    private void dfs(int i,int[][] isConnected, boolean[] vis){
+        vis[i]=true;
+
+        for(int x=0;x<isConnected.length;x++){
+            if(isConnected[i][x]==1 && !vis[x]){
+                dfs(x,isConnected,vis);
+            }
+        }
+    }
+    public int findCircleNum(int[][] isConnected) {
+
+        int n=isConnected.length;
+        int count=0;
+
+        boolean[] vis=new boolean[n];
+
+        for(int i=0;i<n;i++){
+            if(!vis[i]){
+                dfs(i,isConnected,vis);
+                count++;
+            }
+        }
+        return count;
+    }
+
+}
