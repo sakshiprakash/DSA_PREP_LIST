@@ -1,0 +1,46 @@
+Time complexity: O(m × n) 
+Auxiliary space complexity: O(m × n) 
+
+
+class Solution {
+    private void dfs(int sr,int sc, int color, int[][] image, int orgColor){
+
+        int m=image.length;
+        int n=image[0].length;
+
+        //Boundary and color check
+        if(sr<0 || sc<0 || sr>=m || sc>=n || image[sr][sc]!=orgColor)
+            return;
+        
+        //Recolor 
+        image[sr][sc]=color;
+
+
+        dfs(sr-1,sc,color,image,orgColor);
+        dfs(sr+1,sc,color,image,orgColor);
+        dfs(sr,sc-1,color,image,orgColor);
+        dfs(sr,sc+1,color,image,orgColor);
+    }
+    public int[][] floodFill(int[][] image, int sr, int sc, int color) {
+
+        int orgColor=image[sr][sc];
+
+        if(orgColor==color)
+            return image;
+
+        dfs(sr,sc,color,image,orgColor);
+        return image;
+    }
+}
+
+
+
+Algorithm steps
+1. Store the starting pixel's original color in originalColor.
+2. If originalColor == color, return the image immediately because no changes are required.
+3. Start DFS from (sr, sc).
+4. Check whether the current coordinates are outside the image or the current pixel's color differs from originalColor. If either condition holds, return.
+5. Change the current pixel's color to the new color.
+6. Recursively explore all four directions: up, down, left, and right.
+7. Continue until all connected pixels with the original color have been recolored.
+8. Return the modified image.
